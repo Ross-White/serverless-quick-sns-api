@@ -2,6 +2,10 @@ service: sns-api
 
 frameworkVersion: '2'
 
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!assets/**'
 
 provider:
   name: aws
@@ -9,9 +13,16 @@ provider:
   stage: 'dev'
   region: 'eu-west-2' # London
   lambdaHashingVersion: 20201221
-# TODO : 1. set SNS permissions
+  apiKeys:
+    - snsKey
+  iam: 
+    role: 
+      statements:
+        - Effect: "Allow"
+          Resource: "*"
+          Action:
+            - "sns:*"
 functions:
-  # TODO : 2. add an api path  
   hello:
     handler: handlers.hello
     events:
@@ -19,4 +30,11 @@ functions:
           path: hello
           method: post
           cors: true
-  # TODO : 3. setup SNS function 
+  sns-create-topic:
+    handler: sns.createTopic
+    events:
+      - http:
+          path: sns/topic
+          method: post
+          private: true
+          cors: true

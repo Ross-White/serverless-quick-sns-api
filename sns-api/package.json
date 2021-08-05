@@ -1,0 +1,14 @@
+{
+  "name": "sns-api",
+  "version": "1.0.0",
+  "description": "A quick sns api",
+  "main": "handlers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.961.0"
+  }
+}
