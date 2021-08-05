@@ -13,5 +13,10 @@ provider:
 functions:
   # TODO : 2. add an api path  
   hello:
-    handler: handler.hello
+    handler: handlers.hello
+    events:
+      - http:
+          path: hello
+          method: post
+          cors: true
   # TODO : 3. setup SNS function 

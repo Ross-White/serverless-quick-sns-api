@@ -19,3 +19,18 @@
     ```
     * Check the stack deployment by looking for the stack (sls service name) in the AWS Console / CloudFormation
     * Check what resources were created by the stack
+    * Lambda can now be executed, but it has no triggers
+* [ ] Add an API Gateway trigger to your Lambda
+    ```yaml
+    functions:
+        hello:
+            handler: handlers.hello
+            events:
+            - http:
+                path: hello
+                method: post
+                cors: true
+    ```
+    * The `sls` output will now contain a URL for your lambda
+    * [ ] Test that url in Insomnia
+    ![insomnia-hello](./assets/insomnia-hello.png)
