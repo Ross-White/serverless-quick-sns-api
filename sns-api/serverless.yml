@@ -1,0 +1,17 @@
+service: sns-api
+
+frameworkVersion: '2'
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: 'dev'
+  region: 'eu-west-2' # London
+  lambdaHashingVersion: 20201221
+# TODO : 1. set SNS permissions
+functions:
+  # TODO : 2. add an api path  
+  hello:
+    handler: handler.hello
+  # TODO : 3. setup SNS function 
