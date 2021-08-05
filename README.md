@@ -33,7 +33,7 @@
     ```
     * The `sls` output will now contain a URL for your lambda
     * [ ] Test that url in Insomnia
-    ![insomnia-hello](./assets/insomnia-hello.png)
+    ![insomnia-hello](./sns-api/assets/insomnia-hello.png)
 * [ ] Add SNS logic for creating a topic
     * [ ] Install the `aws-sdk` package
         * This is required for local runtime, but it's already imported within a live Lambda
