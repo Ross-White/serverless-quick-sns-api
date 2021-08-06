@@ -111,7 +111,8 @@
         {
             "topicArn": "...",
             "message": "Test message",
-            "subject": "Test subject"
+            "subject": "Test subject",
+            "senderId": "..."
         }
         ```
 * To get the urls required for Insomnia look at the serverless framework logs 
