@@ -15,6 +15,10 @@ const createTopic = async ({ body }) => {
     const { topicName } = JSON.parse(body);
     const createTopicParams = {
       Name: topicName /* required */,
+      Attributes: {
+        // Sets the DisplayName, particularly useful for the email messages
+        'DisplayName': topicName,
+      },
     };
     const res = await sns.createTopic(createTopicParams).promise();
     return {
@@ -108,15 +112,27 @@ const publishMessage = async ({ body }) => {
    * @param {String} event.body.topicArn - Arn of the topic
    * @param {String} event.body.message - Message that would be published
    * @param {String} event.body.subject - Subject text - mainly used for email subscriptions
+   * @param {String} event.body.senderId - Sender ID - mainly used for the SMS sender id
    * @return {JSON} Returns a statusCode, a body that contains a message, response or an Error.
    */
   try {
-    const { message, topicArn, subject } = JSON.parse(body);
+    const { message, topicArn, subject, senderId } = JSON.parse(body);
+    // Parses the senderId:
+    //  - must be 1-11 alpha-numeric characters, no spaces
+    const parsedSenderId = senderId && senderId.substring(0, 11).split(' ').join('').toUpperCase();
+    // Set the publish params
     const publishParams = {
       Message: message /* required */,
       Subject: subject,
       TopicArn: topicArn,
+      MessageAttributes: {
+        'AWS.SNS.SMS.SenderID': {
+          'DataType': 'String',
+          'StringValue': parsedSenderId  
+        }    
+      } 
     };
+    // Publish the message
     const res = await sns.publish(publishParams).promise();
     return {
       statusCode: 200,
