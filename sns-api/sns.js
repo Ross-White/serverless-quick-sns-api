@@ -6,7 +6,7 @@ const sns = new AWS.SNS();
 
 const createTopic = async ({ body }) => {
   /**
-   * Creates an SNS topic 
+   * Creates an SNS topic
    * @summary Takes a name and creates an SNS topic
    * @param {String} event.body.topicName - Name of the topic
    * @return {JSON} Returns a statusCode, a body that contains a message, topicArn or an Error.
@@ -101,9 +101,51 @@ const subscribeToTopic = async ({ body }) => {
   }
 };
 
-// TODO: add message function using this example https://github.com/serverless/examples/blob/cf08befc3925b8558229af1a987d05a2aadbf8ff/aws-node-text-analysis-via-sns-post-processing/addNote.js
+const publishMessage = async ({ body }) => {
+  /**
+   * Publishes a message all subscribers of an SNS topic
+   * @summary Takes message and an (optional) subject and publishes that message to an SNS topic
+   * @param {String} event.body.topicArn - Arn of the topic
+   * @param {String} event.body.message - Message that would be published
+   * @param {String} event.body.subject - Subject text - mainly used for email subscriptions
+   * @return {JSON} Returns a statusCode, a body that contains a message, response or an Error.
+   */
+  try {
+    const { message, topicArn, subject } = JSON.parse(body);
+    const publishParams = {
+      Message: message /* required */,
+      Subject: subject,
+      TopicArn: topicArn,
+    };
+    const res = await sns.publish(publishParams).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: `Succesfully sent message to topic!`,
+          res,
+        },
+        null,
+        2
+      ),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(
+        {
+          message: `Could not publish message.`,
+          err,
+        },
+        null,
+        2
+      ),
+    };
+  }
+};
 
 module.exports = {
   createTopic,
   subscribeToTopic,
+  publishMessage,
 };

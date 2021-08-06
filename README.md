@@ -95,11 +95,24 @@
     * To make a request, we use the following JSON, and we must also use the apiToken
         ```json
         {
-            "topicArn": "{insert it topic arn here}",
+            "topicArn": "...",
             "endpoints": [
                 {"type": "sms", "value":"+447......."}, 
                 {"type": "email", "value": "....@gmail.com"}
             ]
         }
         ```
+* [ ] Add SNS logic for publishing messages to a topic
+    * [docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SNS.html#publish-property)
+    * takes a message, an topicArn, and an (optional) subject
+    * publishes the message to the topicArn
+    * To make a request we use the following JSON, and we must also use the apiToken
+        ```json
+        {
+            "topicArn": "...",
+            "message": "Test message",
+            "subject": "Test subject"
+        }
+        ```
+* To get the urls required for Insomnia look at the serverless framework logs 
 

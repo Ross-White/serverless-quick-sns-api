@@ -46,3 +46,11 @@ functions:
           method: post
           private: true
           cors: true
+  sns-publish-message:
+    handler: sns.publishMessage
+    events:
+      - http:
+          path: sns/publish
+          method: post
+          private: true
+          cors: true
