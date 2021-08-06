@@ -38,3 +38,11 @@ functions:
           method: post
           private: true
           cors: true
+  sns-subscribe-to-topic:
+    handler: sns.subscribeToTopic
+    events:
+      - http:
+          path: sns/subscribe
+          method: post
+          private: true
+          cors: true

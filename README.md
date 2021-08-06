@@ -86,4 +86,20 @@
             ```
             * On the sls output `aws-cli` will generate a new token for you
             * In Insomnia you will need to add that token to the header `x-api-key`  
-            
+* [ ] Add SNS logic for subscribing endpoints to a topic
+    * endpoints are email and phone number (amongst others), essentially addresses for the subscribers
+    * to add subscribers we require the topicArn - which is the address of the topic
+    * it's important here that we already have the topicArn, this is why the previous method returns the topicArn, it may be useful to store the arn in the db for a trip
+    * [docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SNS.html#subscribe-property)
+    * Make sure that the function is also private
+    * To make a request, we use the following JSON, and we must also use the apiToken
+        ```json
+        {
+            "topicArn": "{insert it topic arn here}",
+            "endpoints": [
+                {"type": "sms", "value":"+447......."}, 
+                {"type": "email", "value": "....@gmail.com"}
+            ]
+        }
+        ```
+
