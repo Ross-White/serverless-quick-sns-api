@@ -5,22 +5,42 @@ const AWS = require("aws-sdk");
 const sns = new AWS.SNS();
 
 const createTopic = async ({ body }) => {
-  const { topicName } = JSON.parse(body);
-  const createTopicParams = {
-    Name: topicName /* required */,
-  };
-  const res = await sns.createTopic(createTopicParams).promise();
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: `Succesfully create topic with the following name, ${topicName}`,
-        topicArn: res.TopicArn,
-      },
-      null,
-      2
-    ),
-  };
+  /**
+   * Creates an SNS topic 
+   * @summary Takes a name and creates an SNS topic
+   * @param {String} event.body.topicName - Name of the topic
+   * @return {JSON} Returns a statusCode, a body that contains a message, topicArn or an Error.
+   */
+  try {
+    const { topicName } = JSON.parse(body);
+    const createTopicParams = {
+      Name: topicName /* required */,
+    };
+    const res = await sns.createTopic(createTopicParams).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: `Succesfully create topic with the following name, ${topicName}`,
+          topicArn: res.TopicArn,
+        },
+        null,
+        2
+      ),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(
+        {
+          message: `Could not create topic.`,
+          err,
+        },
+        null,
+        2
+      ),
+    };
+  }
 };
 
 const subscribeToTopic = async ({ body }) => {
